@@ -6,4 +6,14 @@ describe 'PhoneCat App', ->
       browser.get '/'
 
     it 'should filter the phone list as user type into the search box', ->
-      expect(element.all(`by`.css('.phones li')).count()).toBe 3
+      phoneList = element.all `by`.repeater 'phone in phones'
+      query = element `by`.model 'query'
+
+      expect(phoneList.count()).toBe 3
+
+      query.sendKeys 'nexus'
+      expect(phoneList.count()).toBe 1
+
+      query.clear()
+      query.sendKeys 'motorola'
+      expect(phoneList.count()).toBe 2
